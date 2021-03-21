@@ -1,0 +1,155 @@
+<!doctype html>
+<html class="no-js" lang="">
+
+<head>
+  <meta charset="utf-8">
+  <title>Curador | CryptoArt token history</title>
+  <meta name="description" content="CryptoArt token history">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <link rel="manifest" href="site.webmanifest">
+  <link rel="apple-touch-icon" href="icon.png">
+  <link href="https://fonts.googleapis.com/css?family=Lobster&display=swap&text=Curador" rel="stylesheet">
+  <!-- Place favicon.ico in the root directory -->
+  <link rel="shortcut icon" href="favicon.ico" />
+
+  <!-- fontawesome.com -->
+  <link rel="stylesheet" href="css/all.min.css">
+  <!-- bulma.io -->
+  <link rel="stylesheet" href="css/bulma.min.css">
+
+  <!-- animate.css -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.0.0/animate.min.css"/>
+
+  <!-- curador.art.br -->
+  <link rel="stylesheet" href="css/curador.art.br.css">
+
+  <style>
+    .subtitle {
+      font-size: 2.5rem;
+      font-size: calc(5vmin);
+
+      font-weight: 100;
+      margin-top: 0;
+    }
+
+    .column {
+      width: 100%;
+      height: 300px;
+      overflow: hidden;
+    }
+
+    .column img {
+      display: block;
+      width: 100% !important;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div id="app">
+    <div class="container">
+      <section class="section">
+        <h1 class="title">Curador</h1>
+        <h2 class="subtitle">
+          CryptoArt token history
+        </h2>
+        <p>
+          <a href="hrrps://superrare.co/leozeba">by @leozeba</a>
+          | leozeba.eth
+        </p>
+        <p>
+          <a href="https://nft.ethglobal.co/" target="_blank">
+            <img src="img/nfthack-logo.svg" style="height: 6rem; margin-top: 2rem; margin-right: 1rem;">
+          </a>
+        </p>
+      </section>
+    </div>
+
+    <div class="container" style="max-width: 100%;">
+      <div class="columns is-multiline">
+        <div class="column is-2" v-for="(token, index) in tokens" v-if="index < 100">
+          <img v-bind:src="token.split(',')[2]">
+        </div>
+      </div>
+    </div>
+
+    <div class="has-text-centered" style="margin-top: 5rem;">
+      <p style="margin-top: 7rem; margin-left: -1.25rem;">
+        <a href="https://bulma.io/">
+          <span class="has-badge-rounded has-badge-black">
+            <img src="img/made-with-bulma--semiblack.png" style="height: 2rem; margin-right: 0.5rem;">
+          </span>
+        </a>
+        <a href="https://vuejs.org/">
+          <span class="has-badge-rounded has-badge-black">
+            <img src="img/vuejs.png" style="height: 1.7rem;">
+          </span>
+        </a>
+        <a href="https://golang.org/">
+          <span class="has-badge-rounded has-badge-black">
+            <img src="img/go-logo-blue.svg" style="height: 1.7rem; margin-left: 1rem;">
+          </span>
+        </a>
+      </p>
+    </div>
+
+  </div>
+
+  <!-- vue.js -->
+  <script src="js/vue.js"></script>
+  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+  <!-- fontawesome.com -->
+  <script src="js/all.min.js"></script>
+
+  <!-- curador_xhr -->
+  <script src="js/curador.art.br.js"></script>
+
+  <!-- app -->
+  <script>
+    window.addEventListener('load', function(){
+      var APP = new Vue({
+        el: "#app",
+        data: {
+          tokens: []
+        },
+        methods: {
+          init: function() {
+            this.csv();
+          },
+          csv: function() {
+            CURADOR_XHR
+              .get("/csv/nfts-ordered-by-tokenId-asc.csv")
+              .then(response => {
+                this.tokens = response.data.split("\n");
+                return;
+              })
+              .finally(() => {
+              });
+          }
+        },
+        filters: {
+        },
+        mounted() {
+          this.init();
+        },
+        updated() {
+        }
+      });
+    });
+  </script>
+
+  <!-- Hotjar Tracking Code for curador.art.br -->
+  <script>
+  (function(h,o,t,j,a,r){
+      h.hj=h.hj||function(){(h.hj.q=h.hj.q||[]).push(arguments)};
+      h._hjSettings={hjid:2308374,hjsv:6};
+      a=o.getElementsByTagName('head')[0];
+      r=o.createElement('script');r.async=1;
+      r.src=t+h._hjSettings.hjid+j+h._hjSettings.hjsv;
+      a.appendChild(r);
+  })(window,document,'https://static.hotjar.com/c/hotjar-','.js?sv=');
+  </script>
+</body>
+</html>
